@@ -2,9 +2,7 @@ package com.java8.practice.operationexample;
 
 import com.java8.practice.objectcollection.Employee;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class RealTimeQueries {
@@ -42,6 +40,8 @@ public class RealTimeQueries {
         System.out.println("What is the average age of male and female employees? " + averageAge);
 
         //Get the details of highest paid employee in the organization?
+        Optional<Employee> highestPaidEmployee=employeeList.stream().collect(Collectors.maxBy(Comparator.comparingDouble(Employee::getSalary)));
+        System.out.println("Get the details of highest paid employee in the organization? " + highestPaidEmployee);
 
         //Get the names of all employees who have joined after 2015?
         List<String> employeeNamelist = employeeList.stream().filter(e -> e.getYearOfJoining() <= 2015).map(Employee::getName).collect(Collectors.toList());
@@ -50,6 +50,17 @@ public class RealTimeQueries {
         // Count the number of employees in each department?
         Map<String, Long> noEmployeeInDepartment = employeeList.stream().collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()));
         System.out.println("Count the number of employees in each department? " + noEmployeeInDepartment);
+
+        //Given a list of employees, how do you find out who is the senior most employee in the organization?
+        Optional<Employee> seniorEmployeeList=employeeList.stream().sorted(Comparator.comparingInt(Employee::getYearOfJoining)).findFirst();
+        System.out.println("Given a list of employees, how do you find out who is the senior most employee in the organization? " + seniorEmployeeList);
+
+        //Given a list of employees, get the details of the youngest employee in the organization?
+        Optional<Employee> youngestEmployeeList= employeeList.stream().sorted(Comparator.comparingInt(Employee::getAge)).findFirst();
+        System.out.println("Given a list of employees, get the details of the youngest employee in the organization? " + youngestEmployeeList);
+
+
+
 
     }
 }
